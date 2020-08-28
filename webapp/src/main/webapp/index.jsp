@@ -1,3 +1,3 @@
-<h1> RahulShettyAcademy.com Learning</h1>
-<h2> Learn QA Automation tools + Devops Tools CI/CD pipelines in course from Scratch</h2>
-<h2> Good Luck and we are almost done with the course.Thankyou</h2>
+<h1> Hello World</h1>
+<h2> This is a simple maven project</h2>
+<h2> Using Jenkins we deploy this project on tomcat server</h2>
