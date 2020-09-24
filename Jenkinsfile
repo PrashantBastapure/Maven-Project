@@ -10,10 +10,12 @@ pipeline {
 			
 	stage('build') {	 
            steps {
+	      withMaven(maven: 'maven')	{   
 	      sh 'mvn clean install'
 		   echo "this is build stage"
 		  }		  
-		}	
+		}
+	     }	
 	      
 	stage('Test') {	 
            steps {
