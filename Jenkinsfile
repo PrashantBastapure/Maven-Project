@@ -19,5 +19,12 @@ pipeline {
               echo "this is Test stage"
 		  }		  
 		}	
+	      
+	 stage('Approval') {	 
+           steps {
+	      input 'get approval'	   
+              echo "this is Approval stage stage"
+		  }		  
+		}	
 	  }
    }
