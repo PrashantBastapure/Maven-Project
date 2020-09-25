@@ -10,27 +10,29 @@ pipeline {
 			
 	stage('Compile') {	 
            steps { 
-		   withMaven(MAVEN_HOME: 'MAVEN_HOME'){
+		   withMaven(jdk: 'JAVA_HOME', maven: 'MAVEN_HOME'){
 	         	sh 'mvn clean compile'
 			echo "this is compile stage"
 		  }		  
 		}
 	      }
+	      
+	      stage('Test') {	 
+                steps {
+                   echo "this is Test stage"
+		  }		  
+		}	
 	
         stage('build') {	 
            steps { 
-		   withMaven(MAVEN_HOME: 'MAVEN_HOME'){
-	         	sh 'mvn clean install'
+		   withMaven(jdk: 'JAVA_HOME', maven: 'MAVEN_HOME'){
+	         	sh 'mvn clean package'
 			echo "this is build stage"
 		  }		  
 		}
 	      }
 	
-	stage('Test') {	 
-           steps {
-              echo "this is Test stage"
-		  }		  
-		}	
+	
 	      
 	 stage('Approval') {	 
            steps {
