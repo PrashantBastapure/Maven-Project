@@ -30,7 +30,7 @@
   </distributionManagement>
 
   <build>
-        <plugins>
+        <!--<plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-war-plugin</artifactId>
@@ -39,7 +39,9 @@
                  <warName>pashu.war</warName>
                 </configuration>
            </plugin>
-       </plugins>
+       </plugins>  -->
+           
+      <finalName>${rp.build.warname}-pashu</finalName>    
            
     <plugins>
       <plugin>
