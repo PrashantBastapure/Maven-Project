@@ -32,6 +32,7 @@
   <build>
     <plugins>
       <plugin>
+        <finalName>prashant</finalName>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>1.8</source>
