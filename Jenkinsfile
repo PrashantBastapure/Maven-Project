@@ -32,13 +32,23 @@ pipeline {
 		}
 	      }
 	
-	
-	      
+	         
 	 stage('Approval') {	 
            steps {
 	      input 'get approval'	   
               echo "this is Approval stage stage"
 		  }		  
 		}	
-	  }
+	
+	      
+	      stage ('SSH Connection and Deploy'){
+             steps {
+			    sshagent(['tomcat']) {
+                    sh 'scp -o StrictHostKeyChecking=no */target/*.war ec2-user@107.23.195.120:/var/lib/tomcat/webapps1'
+                          }
+                 		}
+					  }
+		
+	
+	 }
    }
