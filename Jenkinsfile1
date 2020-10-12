@@ -1,9 +1,9 @@
 pipeline {
     agent any
      parameters {
-	       string(name: 'Pipeline', defaultvalue: '', description: '')
-           choice(name: 'VERSION', choice: ['1.0','2.0','3.0'], defaultvalue: '', description: 'choose your version')
-		   booleanParam(name: 'executeTests', defaultvalue: 'true', description: 'boolean expression')
+	       string(name: 'Pipeline', defaultValue: '', description: '')
+           choice(name: 'VERSION', choices: ['1.0','2.0','3.0'], defaultValue: '', description: 'choose your version')
+		   booleanParam(name: 'executeTests', defaultValue: 'true', description: 'boolean expression')
 		   
 		 }	 
 	   stages {
