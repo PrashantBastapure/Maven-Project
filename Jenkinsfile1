@@ -26,6 +26,7 @@ pipeline {
 	   
 	    stage ('deploy') {
 			   steps {
+			   deploy adapters: [tomcat7(credentialsId: '67d86589-43da-488d-aa79-da9929f4f7b5', path: '', url: 'http://3.89.63.179:8080/')], contextPath: '/var/lib/tomcat/webapps', war: '**/*.war'
 			      echo 'deploying the application'
 				  echo "Deploying the version ${params.VERSION}"
 		    	}
