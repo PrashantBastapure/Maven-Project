@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+     parameters {
+	       string(name: 'VERSION' defaultvalue: '', description: '')
+           choice(name: 'VERSION', choice: ['1.0','2.0','3.0'], defaultvalue: '', description: 'choose your version')
+		   booleanParam(name: 'executeTests', defaultvalue: 'true', description: 'boolean expression')
+		   
+		 }	 
+	   stages {
+	       stage ('build') {
+                  steps {
+				        echo 'building the application'
+					}
+            }
+ 
+            stage ('Test') {
+			   when {
+			       expression {
+				            params.executeTests
+				   }
+			   }
+			   steps {
+			      echo 'Tesing the application'
+				  	}
+        }		   
+	   
+	    stage ('deploy') {
+			   steps {
+			      echo 'deploying the application'
+				  echo "Deploying the version ${params.VERSION}"
+		    	}
+        }		   
+	   
+    }
+
+}
