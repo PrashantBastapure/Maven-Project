@@ -1,8 +1,8 @@
 pipeline {
     agent any
      parameters {
-	       string(name: 'Pipeline', defaultValue: '', description: '')
-           choice(name: 'VERSION', choices: ['1.0','2.0','3.0'], defaultValue: '', description: 'choose your version')
+	      
+                   choice(name: 'VERSION', choices: ['1.0','2.0','3.0'], description: 'choose your version')
 		   booleanParam(name: 'executeTests', defaultValue: 'true', description: 'boolean expression')
 		   
 		 }	 
