@@ -1,37 +1,78 @@
 pipeline {
-    agent any
-     parameters {
-	      
-                   choice(name: 'VERSION', choices: ['1.0','2.0','3.0'], description: 'choose your version')
-		   booleanParam(name: 'executeTests', defaultValue: 'true', description: 'boolean expression')
-		   
-		 }	 
-	   stages {
-	       stage ('build') {
-                  steps {
-				        echo 'building the application'
-					}
-            }
+  agent any {
+     tools {
+        jdk 'java_8'
+         maven 'Maven 3.3.9'
+       }
+     Parameters {
+     choice(choices: 'DEV\nQA\nPROD', description: 'Choose environment', name: 'Level' )
  
-            stage ('Test') {
-			   when {
-			       expression {
-				            params.executeTests
-				   }
-			   }
-			   steps {
-			      echo 'Tesing the application'
-				  	}
-        }		   
-	   
-	    stage ('deploy') {
-			   steps {
-			   deploy adapters: [tomcat7(credentialsId: '67d86589-43da-488d-aa79-da9929f4f7b5', path: '', url: 'http://3.89.63.179:8080/')], contextPath: '/var/lib/tomcat/webapps', war: '**/*.war'
-			      echo 'deploying the application'
-				  echo "Deploying the version ${params.VERSION}"
-		    	}
-        }		   
-	   
-    }
+  }
+    environment {
+     appName = 'MavenProject'
+    
+  }
 
-}
+stages {
+     stage ('Checkout') {
+       steps{
+           git 'https://github.com/PrashantBastapure/Maven-Project.git'
+                 echo 'execute Checkout stage'
+          }
+        }
+
+    stage ('Build') {
+      when {
+        anyOf {
+  
+              environment name: 'level', value: 'DEV'
+	      environment name: 'level', value: 'QA'
+	      environment name: 'level', value: 'PROD'
+           }
+        }
+
+       
+     environment {
+        version = readMavenPom().getVersion()
+
+           }
+
+        steps {
+             
+           unstash 'settings'
+   sh '''
+	    levelParam="${level,,}"
+        mvn -s settings.xml  org.jacoco:jacoco-maven-plugin:prepare-agent clean install \
+         -Dlabel=$version -Dstage.dir=**/$appName \
+         -Dmaven.test.failure.ignore=true \
+         -Dmaven.test.skip=false \
+         -Dspring.profiles.active=$levelParam pmd:pmd
+             '''
+        
+        stash includes: '**', name: 'source'
+                stash includes: '**/target/jacoco.exec', name: 'unitCodeCoverage'
+                stash includes: '**/target/surefire-reports/*.xml', name: 'surefire'
+                stash includes: '**/pmd.xml', name: 'pmd'
+                  echo 'execute build stage'
+                   
+                 }
+              }
+         }
+  }        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
